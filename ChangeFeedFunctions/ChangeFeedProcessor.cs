@@ -2,14 +2,11 @@
 namespace ChangeFeedFunctions
 {
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Text;
     using Microsoft.Azure.Documents;
-    //using Microsoft.Azure.Documents;
     using Microsoft.Azure.EventHubs;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Host;
-    //using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -17,16 +14,8 @@ namespace ChangeFeedFunctions
     /// </summary>
     public static class ChangeFeedProcessor
     {
-        /// <summary>
-        /// Name of the Event Hub.
-        /// </summary>
         private static readonly string EventHubName = "event-hub1";
 
-        /// <summary>
-        /// Processes modified records from Cosmos DB Collection into the Event Hub.
-        /// </summary>
-        /// <param name="documents"> Modified records from Cosmos DB collections. </param>
-        /// <param name="log"> Outputs modified records to Event Hub. </param>
         [FunctionName("ChangeFeedProcessor")]
         public static void Run(
             //change database name below if different than specified in the lab
@@ -38,12 +27,8 @@ namespace ChangeFeedFunctions
             LeaseCollectionName = "leases",
             CreateLeaseCollectionIfNotExists = true)]IReadOnlyList<Document> documents, TraceWriter log)
         {
-            // Create variable to hold connection string to enable event hub namespace access.
-#pragma warning disable CS0618 // Type or member is obsolete
-            //string eventHubNamespaceConnection = ConfigurationSettings.AppSettings["EventHubNamespaceConnection"];
 
             string eventHubNamespaceConnection = "Endpoint = sb://tvkchangefeedeventhub7675.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=***";
-#pragma warning restore CS0618 // Type or member is obsolete
 
             // Build connection string to access event hub within event hub namespace.
             EventHubsConnectionStringBuilder eventHubConnectionStringBuilder =
